@@ -113,14 +113,7 @@ void InitSDKCalls_CRecipientFilter(GameData gd)
 	}
 }
 
-methodmap AddressBase
-{
-	property Address Address
-	{
-		public get() { return view_as<Address>(this); }
-	}
-}
-methodmap M_CRecipientFilter < AddressBase
+methodmap M_CRecipientFilter
 {
 	public M_CRecipientFilter(Address addr)
 	{
@@ -129,18 +122,18 @@ methodmap M_CRecipientFilter < AddressBase
 
 	public void AddRecipient( int playerindex )
 	{
-		SDKCall(g_hSDKCall_AddRecipient, this.Address, playerindex);
+		SDKCall(g_hSDKCall_AddRecipient, view_as<Address>(this), playerindex);
 	}
 	public void	RemoveRecipient( int playerindex )
 	{
-		SDKCall(g_hSDKCall_RemoveRecipientByPlayerIndex, this.Address, playerindex);
+		SDKCall(g_hSDKCall_RemoveRecipientByPlayerIndex, view_as<Address>(this), playerindex);
 	}
 	public int	GetRecipientCount()
 	{
-		return SDKCall(g_hSDKCall_GetRecipientCount, this.Address);
+		return SDKCall(g_hSDKCall_GetRecipientCount, view_as<Address>(this));
 	}
 	public int	GetRecipientIndex( int slot )
 	{
-		return SDKCall(g_hSDKCall_GetRecipientIndex, this.Address, slot);
+		return SDKCall(g_hSDKCall_GetRecipientIndex, view_as<Address>(this), slot);
 	}
 }
