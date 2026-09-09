@@ -1,0 +1,44 @@
+"Games"
+{
+	"#default"
+	{
+		"Signatures"
+		{
+			// "#Game_radio_location" in CCSPlayer::Radio
+			"CCSPlayer::ConstructRadioFilter"
+			{
+				"library"	"server"          
+				"windows"	"\x55\x8B\xEC\x83\xEC\x10\x89\x4D\xF4\x8B\x4D\x08"
+				"linux"		"@_ZN9CCSPlayer20ConstructRadioFilterER16CRecipientFilter"
+			}
+			"CRecipientFilter::AddRecipient"
+			{
+				"library"	"server"         
+				"windows"	"\x55\x8B\xEC\x8B\x45\x08\x85\xC0\x74\x68"
+				"linux"		"@_ZN16CRecipientFilter12AddRecipientEPK11CBasePlayer"
+			}
+			// VoiceSubtitle
+			"CRecipientFilter::RemoveRecipientByPlayerIndex"
+			{
+				"library"	"server"         
+				"windows"	"\x55\x8B\xEC\x8D\x45\x08\x83"
+				"linux"		"@_ZN16CRecipientFilter28RemoveRecipientByPlayerIndexEi"
+			}
+		}
+
+		"Offsets"
+		{
+			// virtuals
+			"CRecipientFilter::GetRecipientCount"
+			{
+				"windows"	"3"
+				"linux"		"4"
+			}
+			"CRecipientFilter::GetRecipientIndex"
+			{
+				"windows"	"4"
+				"linux"		"5"
+			}
+		}
+	}
+}
