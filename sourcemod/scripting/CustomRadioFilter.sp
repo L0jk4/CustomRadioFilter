@@ -25,27 +25,8 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	GameData gd = new GameData(GAMECONF_FILE);
-	if (gd == null)
-	{
-		delete gd;
-		SetFailState("Failed to load gamedata file: %s", GAMECONF_FILE);
-	}
-
-	// void CCSPlayer::ConstructRadioFilter( CRecipientFilter& filter )
-	g_hDetour_ConstructRadioFilter = new DynamicDetour(Address_Null, CallConv_THISCALL, ReturnType_Void, ThisPointer_CBaseEntity);
-	if (g_hDetour_ConstructRadioFilter == null ||
-	    !g_hDetour_ConstructRadioFilter.SetFromConf(gd, SDKConf_Signature, "CCSPlayer::ConstructRadioFilter"))
-	{
-		delete gd;
-		SetFailState("Failed to find signature for \"CCSPlayer::ConstructRadioFilter\"");
-	}
-	g_hDetour_ConstructRadioFilter.AddParam(HookParamType_ObjectPtr);
-	if (!g_hDetour_ConstructRadioFilter.Enable(Hook_Post, Detour_ConstructRadioFilter))
-	{
-		delete gd;
-		SetFailState("Failed to enable detour on \"CCSPlayer::ConstructRadioFilter\"");
-	}
-
+	if (gd == null) { delete gd; SetFailState("Failed to load gamedata file: %s", GAMECONF_FILE); }
+	InitDetour_ConstructRadioFilter(gd);
 	InitSDKCalls_CRecipientFilter(gd);
 	delete gd;
 }
@@ -63,6 +44,24 @@ public MRESReturn Detour_ConstructRadioFilter(int sender, DHookParam hParams)
 	}
 
 	return MRES_Supercede;
+}
+
+void InitDetour_ConstructRadioFilter(GameData gd)
+{
+	// void CCSPlayer::ConstructRadioFilter( CRecipientFilter& filter )
+	g_hDetour_ConstructRadioFilter = new DynamicDetour(Address_Null, CallConv_THISCALL, ReturnType_Void, ThisPointer_CBaseEntity);
+	if (g_hDetour_ConstructRadioFilter == null ||
+	    !g_hDetour_ConstructRadioFilter.SetFromConf(gd, SDKConf_Signature, "CCSPlayer::ConstructRadioFilter"))
+	{
+		delete gd;
+		SetFailState("Failed to find signature for \"CCSPlayer::ConstructRadioFilter\"");
+	}
+	g_hDetour_ConstructRadioFilter.AddParam(HookParamType_ObjectPtr);
+	if (!g_hDetour_ConstructRadioFilter.Enable(Hook_Post, Detour_ConstructRadioFilter))
+	{
+		delete gd;
+		SetFailState("Failed to enable detour on \"CCSPlayer::ConstructRadioFilter\"");
+	}
 }
 
 void InitSDKCalls_CRecipientFilter(GameData gd)
