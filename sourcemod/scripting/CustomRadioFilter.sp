@@ -18,7 +18,7 @@ public Plugin myinfo =
 	author      = "Lojka",
 	description = "",
 	version     = "1.0",
-	url         = "https://github.com/L0jk4/ClientClockCorrection"
+	url         = "https://github.com/L0jk4/CustomRadioFilter"
 };
 
 #define GAMECONF_FILE   "CustomRadioFilter.games"
